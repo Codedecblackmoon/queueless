@@ -1,25 +1,9 @@
 
-// import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import JoinPage from './pages/JoinPage'
-// import StatusPage from './pages/StatusPage'
 
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/join/:businessSlug" element={<JoinPage />} />
-//         <Route path="/status/:entryId" element={<StatusPage />} />
-//       </Routes>
-//     </BrowserRouter>
-//   )
-// }
-
-// export default App
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import JoinPage from './pages/JoinPage'
 import StatusPage from './pages/StatusPage'
-import LoginPage from './pages/LoginPage'
+import LoginPage from './pages/loginPage'
 import DashboardPage from './pages/DashboardPage'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -27,6 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/join/:businessSlug" element={<JoinPage />} />
         <Route path="/status/:entryId" element={<StatusPage />} />
         <Route path="/login" element={<LoginPage />} />
