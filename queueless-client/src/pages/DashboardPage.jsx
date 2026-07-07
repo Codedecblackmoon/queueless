@@ -32,7 +32,7 @@ function DashboardPage() {
         .from('queue_entries')
         .select('*')
         .eq('queue_id', queue.id)
-        .eq('status', ['waiting', 'notified'])
+        .in('status', ['waiting', 'notified'])
         .order('position', { ascending: true })
 
         setEntries(data || [])
@@ -74,24 +74,24 @@ function DashboardPage() {
         return () => supabase.removeChannel(channel)
         }, [queue])
 
-    async function updateStatus(entryId, status) {
-        await fetch(`${import.meta.env.VITE_API_URL}/api/entries/${entryId}/status`, {
-            method: 'PATCH',
-            headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session.access_token}`
-            },
-            body: JSON.stringify({ status })
-        })
-        // No need to manually update state here — Realtime will push the change automatically
-    }
+    // async function updateStatus(entryId, status) {
+    //     await fetch(`${import.meta.env.VITE_API_URL}/api/entries/${entryId}/status`, {
+    //         method: 'PATCH',
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${session.access_token}`
+    //         },
+    //         body: JSON.stringify({ status })
+    //     })
+    //     // No need to manually update state here — Realtime will push the change automatically
+    // }
 
-    async function removeEntry(entryId) {
-        await fetch(`${import.meta.env.VITE_API_URL}/api/entries/${entryId}`, {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${session.access_token}` }
-        })
-    }
+    // async function removeEntry(entryId) {
+    //     await fetch(`${import.meta.env.VITE_API_URL}/api/entries/${entryId}`, {
+    //         method: 'DELETE',
+    //         headers: { Authorization: `Bearer ${session.access_token}` }
+    //     })
+    // }
 
     async function updateStatus(entryId, status) {
     if (!session) return

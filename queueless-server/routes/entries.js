@@ -17,9 +17,9 @@ router.patch('/:id/status', requireAuth, async (req, res) => {
 
   if (error) return res.status(500).json({ error: error.message })
 
-  if (status === 'notified') {
-    await sendNotification(entry.customer_contact, `You're next! Please head to the counter.`)
-  }
+ if (status === 'notified') {
+    console.log(`[Notification stub] Would notify ${entry.customer_contact}: "You're next! Please head to the counter."`)
+    }
 
   res.json(entry)
 })
