@@ -2,7 +2,7 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import JoinPage from './pages/JoinPage'
-import StatusPage from './pages/StatusPage'
+import StatusPage from './pages/statusPage'
 import LoginPage from './pages/loginPage'
 import DashboardPage from './pages/DashboardPage'
 import ProtectedRoute from './ProtectedRoute'
