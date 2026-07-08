@@ -6,7 +6,9 @@ import entriesRouter from './routes/entries.js'
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: 'https://queueless-hazel.vercel.app/login'
+}))
 app.use(express.json())
 
 // This is where the prefix gets added
