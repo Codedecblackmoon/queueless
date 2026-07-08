@@ -9,22 +9,42 @@ function DashboardPage() {
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const [business, setBusiness] = useState(null)
+
+    useEffect(() => {
     async function fetchQueue() {
-      const { data, error } = await supabase
+        const { data } = await supabase
         .from('businesses')
-        .select('id, name, queues(id, name)')
+        .select('id, name, slug, queues(id, name)')
         .eq('owner_id', session.user.id)
         .single()
 
-      if (data?.queues?.length > 0) {
-        setQueue(data.queues[0])
-      }
-      setLoading(false)
+        if (data) {
+        setBusiness(data)
+        if (data.queues?.length > 0) setQueue(data.queues[0])
+        }
+        setLoading(false)
     }
 
     if (session) fetchQueue()
-  }, [session])
+    }, [session])
+
+    useEffect(() => {
+        async function fetchQueue() {
+        const { data, error } = await supabase
+            .from('businesses')
+            .select('id, name, queues(id, name)')
+            .eq('owner_id', session.user.id)
+            .single()
+
+        if (data?.queues?.length > 0) {
+            setQueue(data.queues[0])
+        }
+        setLoading(false)
+        }
+
+        if (session) fetchQueue()
+    }, [session])
 
   useEffect(() => {
     async function fetchEntries() {
@@ -119,6 +139,17 @@ function DashboardPage() {
     return (
     <div>
         <h1>{queue.name} — Dashboard</h1>
+        <p>Share this link with your customers:</p>
+        <code>{`${window.location.origin}/join/${business.slug}`}</code>
+        <button
+        onClick={() => {
+            navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+            alert('Link copied!')
+        }}
+        style={{ marginLeft: '0.5rem' }}
+        >
+        Copy Link
+        </button>
         <table>
         <thead>
             <tr>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 
 function LoginPage() {
@@ -23,12 +23,14 @@ function LoginPage() {
 
   return(
     <form onSubmit={handleLogin}>
-        ll
       <h1>Owner Login</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
       <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
       <button type="submit">Log In</button>
+      <p>
+        Don't have a business account? <Link to="/signup">Sign up</Link>
+        </p>
     </form>
   )
 }

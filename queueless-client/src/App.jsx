@@ -6,6 +6,7 @@ import StatusPage from './pages/statusPage'
 import LoginPage from './pages/loginPage'
 import DashboardPage from './pages/DashboardPage'
 import ProtectedRoute from './ProtectedRoute'
+import SignupPage from './pages/signupPage'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/join/:businessSlug" element={<JoinPage />} />
         <Route path="/status/:entryId" element={<StatusPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/dashboard"
