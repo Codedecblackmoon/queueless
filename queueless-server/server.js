@@ -7,7 +7,7 @@ import entriesRouter from './routes/entries.js'
 const app = express()
 
 app.use(cors({
-  origin: 'https://queueless-hazel.vercel.app/login'
+  origin: 'https://queueless-hazel.vercel.app/'
 }))
 app.use(express.json())
 
