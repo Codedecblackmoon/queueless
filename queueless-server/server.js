@@ -6,9 +6,21 @@ import entriesRouter from './routes/entries.js'
 
 const app = express()
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://queueless-client.vercel.app'
+]
+
 app.use(cors({
-  origin: 'https://queueless-hazel.vercel.app/'
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }))
+
 app.use(express.json())
 
 // This is where the prefix gets added
