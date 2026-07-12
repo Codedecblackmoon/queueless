@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 
+
 function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,16 +23,23 @@ function LoginPage() {
   }
 
   return(
-    <form onSubmit={handleLogin}>
-      <h1>Owner Login</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      <button type="submit">Log In</button>
-      <p>
-        Don't have a business account? <Link to="/signup">Sign up</Link>
-        </p>
-    </form>
+    <section className='login_page'>
+      <div className='left'>
+        <h1>Q-Less</h1>
+      </div>
+      <div className='right'>
+        <form onSubmit={handleLogin}>
+          <h2>Lats open the queue</h2>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <button type="submit">Log In</button>
+          <p>Don't have a business account? <Link to="/signup">Sign up</Link></p>
+        </form>
+      </div>
+
+    </section>
+    
   )
 }
 

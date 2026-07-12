@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage'
 import ProtectedRoute from './ProtectedRoute'
 import SignupPage from './pages/signupPage'
 
+
 function App() {
   return (
     <BrowserRouter>

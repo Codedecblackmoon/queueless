@@ -95,19 +95,22 @@ function SignupPage() {
   }
 
   return (
-    <form onSubmit={handleSignup}>
-      <h1>Create Your Business Account</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input type="text" placeholder="Business name" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      <button type="submit" disabled={loading}>
-        {loading ? 'Creating account...' : 'Sign Up'}
-      </button>
-      <p>
-        Already have an account? <Link to="/login">Log in</Link>
-      </p>
-    </form>
+    <section className='Sighn_page'>
+      <div className='left'>
+        <h1>Q-Less</h1>
+      </div>
+      <div className='right'>
+        <form onSubmit={handleSignup}>
+          <h2>Create Your Business Account</h2>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <input type="text" placeholder="Business name" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <button type="submit" disabled={loading}>{loading ? 'Creating account...' : 'Sign Up'}</button>
+          <p>Already have an account? <Link to="/login">Log in</Link></p>
+        </form>
+      </div>
+    </section>
   )
 }
 

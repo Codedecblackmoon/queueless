@@ -109,3 +109,85 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.login_page{
+  background-color: #f3f4f6;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10em;
+}
+
+.left h1{
+ color: #000;
+}
+
+.left{
+  height: 100vh;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right{
+  background-color: #08060d;
+  position: left;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right form input{
+  margin: 10px 0;
+  padding-left: 10px;
+  padding-right: 50px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.right form button{
+  margin-top: 40px;
+  padding: 5px 25px;
+}
+
+.right form p{
+  font-size: small;
+  margin-top: 10px;
+}
+
+.right form h2{
+  margin-bottom: 40px;
+}
+
+
+/* sighn up ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+.Sighn_page{
+  background-color: #f3f4f6;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10em;
+}
