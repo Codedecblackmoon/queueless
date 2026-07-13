@@ -195,7 +195,7 @@ code {
 
 /* dashborod +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-.dashboard_page{
+/* .dashboard_page{
   background-color: #f3f4f6;
   height: 100vh;
   margin: auto;
@@ -225,14 +225,13 @@ code {
   color: #222;
 }
 
-/* TABLE */
 .queue-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 10px;
 }
 
-/* Header */
+
 .queue-table thead th {
   background: #222;
   color: #fff;
@@ -250,7 +249,7 @@ code {
   border-radius: 0 10px 10px 0;
 }
 
-/* Body */
+
 .queue-table tbody td {
   background: #242424;
   color: #fff;
@@ -269,14 +268,13 @@ code {
   border-radius: 0 10px 10px 0;
 }
 
-/* Party column */
 .queue-table tbody td:nth-child(3) {
   width: 100px;
   text-align: center;
   font-weight: 600;
 }
 
-/* Actions */
+
 .actions {
   display: flex;
   gap: 10px;
@@ -298,7 +296,6 @@ code {
   transform: translateY(-2px);
 }
 
-/* Active styles */
 .notify.active,
 .btn.notify:hover {
   border: 2px solid #00ff66;
@@ -316,7 +313,7 @@ code {
   color: #ff4d4d;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .actions {
     flex-wrap: wrap;
@@ -326,4 +323,215 @@ code {
     min-width: 70px;
     padding: 8px 12px;
   }
+} */
+
+.dashboard-page {
+    min-height: 100vh;
+    background: #f4f6fb;
+    padding: 40px;
+}
+
+.dashboard-container {
+    max-width: 1300px;
+    margin: auto;
+}
+
+.dashboard-header {
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 2.4rem;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    color: #777;
+    font-size: 1rem;
+}
+
+/* ================= Cards ================= */
+
+.top-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.label {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.share-link {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.share-link code {
+    flex: 1;
+    background: #f1f3f8;
+    padding: 12px;
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+}
+
+.qr-card {
+    text-align: center;
+}
+
+.qr-card img {
+    width: 200px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.qr-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* ================= Buttons ================= */
+
+.primary-btn,
+.secondary-btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .25s;
+    font-weight: 600;
+}
+
+.primary-btn {
+    background: #0d6efd;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #0b5ed7;
+}
+
+.secondary-btn {
+    background: #ececec;
+}
+
+.secondary-btn:hover {
+    background: #ddd;
+}
+
+/* ================= Table ================= */
+
+.table-container {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.table-container h2 {
+    margin-bottom: 20px;
+}
+
+.queue-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.queue-table thead th {
+    background: #222;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+.queue-table thead th:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.queue-table thead th:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.queue-table tbody td {
+    background: #2d2d2d;
+    color: white;
+    padding: 15px;
+}
+
+.queue-table tbody td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.queue-table tbody td:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    background: #444;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.notify.active {
+    color: #00ff66;
+    border: 2px solid #00ff66;
+}
+
+.seat.active {
+    color: #00ff66;
+    border: 2px solid #00ff66;
+}
+
+.remove:hover {
+    background: #c62828;
+}
+
+.notify:hover,
+.seat:hover {
+    border: 2px solid #00ff66;
+}
+
+/* ================= Responsive ================= */
+
+@media (max-width: 900px) {
+    .top-row {
+        grid-template-columns: 1fr;
+    }
+
+    .share-link {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actions {
+        flex-wrap: wrap;
+    }
 }
