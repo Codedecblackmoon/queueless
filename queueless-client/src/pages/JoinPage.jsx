@@ -63,7 +63,7 @@ function JoinPage() {
     return (
         <div>
             <h1>{queue.name}</h1>
-            <form onSubmit={handleSubmit}>
+            ert<form onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Your name"

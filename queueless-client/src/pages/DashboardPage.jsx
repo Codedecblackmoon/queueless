@@ -97,46 +97,118 @@ function DashboardPage() {
   if (loading) return <p>Loading...</p>
   if (!queue) return <p>No queue found for this account.</p>
 
+  function copySlugUrl() {
+    navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+    alert('Link copied!')
+  }
+
+  async function downloadQrCode() {
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+      `${window.location.origin}/join/${business.slug}`
+    )}`
+
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const tempUrl = URL.createObjectURL(blob)
+
+      const a = document.createElement('a')
+      a.href = tempUrl
+      a.download = `${business.slug}-queue-qr.png`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(tempUrl)
+    } catch {
+      alert('Failed to download QR code')
+    }
+  }
+
   return (
-    <div>
-      <h1>{queue.name} — Dashboard</h1>
-      {business && (
-        <div style={{ marginBottom: '1rem', padding: '0.75rem', background: '#f3f3f3', borderRadius: '6px' }}>
-          <p>Share this link with your customers:</p>
-          <code>{`${window.location.origin}/join/${business.slug}`}</code>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
-              alert('Link copied!')
-            }}
-            style={{ marginLeft: '0.5rem' }}
-          >
-            Copy Link
-          </button>
-        </div>
-      )}
-      <table>
-        <thead>
-          <tr>
-            <th>#</th><th>Name</th><th>Party</th><th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry) => (
-            <tr key={entry.id}>
-              <td>{entry.position}</td>
-              <td>{entry.customer_name}</td>
-              <td>{entry.party_size}</td>
-              <td>
-                <button onClick={() => updateStatus(entry.id, 'notified')}>Notify</button>
-                <button onClick={() => updateStatus(entry.id, 'seated')}>Seat</button>
-                <button onClick={() => removeEntry(entry.id)}>Remove</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section className='dashboard_page'>
+      <div>
+        <h1>{queue.name} — Dashboard</h1>
+        {/* {business && (
+          <div style={{ marginBottom: '1rem', padding: '0.75rem', background: '#f3f3f3', borderRadius: '6px' }}>
+            <p>Share this link with your customers:</p>
+            <code>{`${window.location.origin}/join/${business.slug}`}</code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+                alert('Link copied!')
+              }}
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Copy Link
+            </button>
+          </div>
+        )} */}
+        {business && (
+          <div style={{ marginBottom: '1rem', padding: '0.75rem', background: '#f3f3f3', borderRadius: '6px' }}>
+            <p>Share this link with your customers:</p>
+            <code>{`${window.location.origin}/join/${business.slug}`}</code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+                alert('Link copied!')
+              }}
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Copy Link
+            </button>
+
+            <div style={{ marginTop: '1rem' }}>
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                  `${window.location.origin}/join/${business.slug}`
+                )}`}
+                alt="QR code to join queue"
+                width={200}
+                height={200}
+              />
+              <br />
+              <button onClick={downloadQrCode} style={{ marginTop: '0.5rem' }}>
+                Download QR Code
+              </button>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+                  alert('Link copied!')
+                }}
+                style={{ marginTop: '0.5rem', marginLeft: '0.5rem' }}
+              >
+                Copy URL
+              </button>
+            </div>
+          </div>
+        )}
+        <dir className="table-container">
+          <h2>Queue Management</h2>
+          <table className="queue-table">
+            <thead>
+              <tr>
+                <th>.No</th><th>Name</th><th>Party</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((entry) => (
+                <tr key={entry.id}>
+                  <td>{entry.position}</td>
+                  <td>{entry.customer_name}</td>
+                  <td>{entry.party_size}</td>
+                  <td className="actions">
+                    <button className="btn notify" onClick={() => updateStatus(entry.id, 'notified')}>Notify</button>
+                    <button className="btn seat" onClick={() => updateStatus(entry.id, 'seated')}>Seat</button>
+                    <button className="btn remove" onClick={() => removeEntry(entry.id)}>Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </dir>
+      </div>
+    </section>
+    
   )
 }
 
