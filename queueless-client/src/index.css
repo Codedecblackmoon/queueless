@@ -198,8 +198,9 @@ code {
   padding-top: 7px;
   padding-bottom: 7px;
   border-radius: 5px;
-  background-color: #fff;
-  color: #08060d;
+  background-color: #08060d;
+  color: #ffffff;
+  border: 1px solid #ffffff;
   box-shadow: -19px 20px 43px -4px rgba(89,89,89,0.75);
 -webkit-box-shadow: -19px 20px 43px -4px rgba(89,89,89,0.75);
 -moz-box-shadow: -19px 20px 43px -4px rgba(89,89,89,0.75);
@@ -259,7 +260,7 @@ code {
 
 .dashboard-page {
     min-height: 100vh;
-    background: #f4f6fb;
+    background: #eeb448;
     padding: 40px;
 }
 
@@ -292,12 +293,12 @@ code {
     margin-bottom: 35px;
 }
 
-.card {
-    background: white;
+/*.card {
+     background: ;
     border-radius: 18px;
     padding: 25px;
     box-shadow: 0 10px 25px rgba(0,0,0,.08);
-}
+} */
 
 .card h2 {
     margin-bottom: 20px;

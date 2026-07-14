@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../useAuth'
 import { supabase } from '../supabaseClient'
+import image from '../assets/wired-flat-2234-firework-hover-launch.webp'
 
 function DashboardPage() {
   const { session } = useAuth()
@@ -134,13 +135,8 @@ function DashboardPage() {
           <div className="top-row">
             <div className="card business-card">
               <h2>Customer Queue</h2>
-              <p className="label">Share this link with your customers</p>
-              <div className="share-link">
-                <code>{`${window.location.origin}/join/${business.slug}`}</code>
-                <button className="primary-btn" onClick={copySlugUrl}>
-                  Copy Link
-                </button>
-              </div>
+              <img src={image} alt="" />
+              
             </div>
 
             <div className="card qr-card">
@@ -213,3 +209,4 @@ function DashboardPage() {
 }
 
 export default DashboardPage
+
