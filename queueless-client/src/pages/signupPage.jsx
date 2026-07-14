@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
+import image from '../assets/svg1.svg'
 
 function slugify(name) {
   return name
@@ -98,6 +99,7 @@ function SignupPage() {
     <section className='Sighn_page'>
       <div className='left'>
         <h1>Q-Less</h1>
+        <img src={image} alt="" />
       </div>
       <div className='right'>
         <form onSubmit={handleSignup}>

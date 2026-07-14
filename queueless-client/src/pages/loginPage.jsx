@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
+import image from '../assets/svg.svg'
 
 
 function LoginPage() {
@@ -26,10 +27,11 @@ function LoginPage() {
     <section className='login_page'>
       <div className='left'>
         <h1>Q-Less</h1>
+        <img src={image} alt="" />
       </div>
       <div className='right'>
         <form onSubmit={handleLogin}>
-          <h2>Lats open the queue</h2>
+          <h2>Effortless Queues. Better Service.</h2>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />

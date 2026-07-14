@@ -61,33 +61,86 @@ function JoinPage() {
     if (error) return <p>{error}</p>
 
     return (
-        <div>
-            <h1>{queue.name}</h1>
-            ert<form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-            />
-            <input
-                type="text"
-                placeholder="Phone or email (optional)"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
-            />
-            <input
-                type="number"
-                min="1"
-                value={partySize}
-                onChange={(e) => setPartySize(Number(e.target.value))}
-            />
-            <button type="submit" disabled={submitting}>
-                {submitting ? 'Joining...' : 'Join Queue'}
-            </button>
-            </form>
-        </div>
+        // <div>
+        //     <h1>{queue.name}</h1>
+        //     <form onSubmit={handleSubmit}>
+        //     <input
+        //         type="text"
+        //         placeholder="Your name"
+        //         value={name}
+        //         onChange={(e) => setName(e.target.value)}
+        //         required
+        //     />
+        //     <input
+        //         type="text"
+        //         placeholder="Phone or email (optional)"
+        //         value={contact}
+        //         onChange={(e) => setContact(e.target.value)}
+        //     />
+        //     <input
+        //         type="number"
+        //         min="1"
+        //         value={partySize}
+        //         onChange={(e) => setPartySize(Number(e.target.value))}
+        //     />
+        //     <button type="submit" disabled={submitting}>
+        //         {submitting ? 'Joining...' : 'Join Queue'}
+        //     </button>
+        //     </form>
+        // </div>
+        <section className="join-page">
+            <div className="join-card">
+
+                <div className="join-header">
+                <h1>{queue.name}</h1>
+                <p>Join the queue in just a few seconds.</p>
+                </div>
+
+                <form className="join-form" onSubmit={handleSubmit}>
+
+                <div className="input-group">
+                    <label>Your Name</label>
+                    <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    />
+                </div>
+
+                <div className="input-group">
+                    <label>Phone or Email</label>
+                    <input
+                    type="text"
+                    placeholder="Optional"
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                    />
+                </div>
+
+                <div className="input-group">
+                    <label>Party Size</label>
+                    <input
+                    type="number"
+                    min="1"
+                    value={partySize}
+                    onChange={(e) => setPartySize(Number(e.target.value))}
+                    />
+                </div>
+
+                <button
+                    className="join-btn"
+                    type="submit"
+                    disabled={submitting}
+                >
+                    {submitting ? "Joining Queue..." : "Join Queue"}
+                </button>
+
+                </form>
+
+            </div>
+        </section>
     )
 }
 
