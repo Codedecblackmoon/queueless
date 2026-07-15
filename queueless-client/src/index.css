@@ -274,35 +274,39 @@ code {
 }
 
 .dashboard-header h1 {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
     font-size: 2.4rem;
     color: #222;
     margin-bottom: 8px;
 }
 
 .dashboard-header p {
-    color: #777;
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    color: #424242;
     font-size: 1rem;
 }
 
 /* ================= Cards ================= */
 
 .top-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 25px;
-    margin-bottom: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Vertical centering */
+  align-items: center;     /* Horizontal centering */
+  text-align: center;
+  padding: 2rem;
+  gap: 2rem;
 }
 
-/*.card {
-     background: ;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-} */
-
-.card h2 {
-    margin-bottom: 20px;
-    color: #222;
+.card i{
+  max-width: 100%;
+  max-height: 1200px;
+  height: auto;
+  
 }
 
 .label {
@@ -310,29 +314,23 @@ code {
     margin-bottom: 10px;
 }
 
-.share-link {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.share-link code {
-    flex: 1;
-    background: #f1f3f8;
-    padding: 12px;
-    border-radius: 10px;
-    overflow-wrap: anywhere;
-}
-
 .qr-card {
     text-align: center;
+    background-color: #101013;
+    padding: 4em;
+    border-radius: 15px;
+    box-shadow: -15px 5px 36px -6px rgba(105,63,18,0.75);
+    -webkit-box-shadow: -15px 5px 36px -6px rgba(105,63,18,0.75);
+    -moz-box-shadow: -15px 5px 36px -6px rgba(105,63,18,0.75);
 }
 
 .qr-card img {
     width: 200px;
     border-radius: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    box-shadow: -19px 20px 43px -4px rgba(65, 64, 64, 0.75);
+-webkit-box-shadow: -19px 20px 43px -4px rgba(65, 64, 64, 0.75);
+-moz-box-shadow: -19px 20px 43px -4px rgba(65, 64, 64, 0.75);
 }
 
 .qr-buttons {
@@ -354,32 +352,42 @@ code {
 }
 
 .primary-btn {
-    background: #0d6efd;
+    background: #eeb448;
     color: white;
 }
 
 .primary-btn:hover {
-    background: #0b5ed7;
+  background-color: #c98a14;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 .secondary-btn {
-    background: #ececec;
+    border: 2px solid #fff;
+    color: #fff;
+    /* background-color:#a1a0a08c; */
 }
 
 .secondary-btn:hover {
-    background: #ddd;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 /* ================= Table ================= */
 
 .table-container {
-    background: white;
-    padding: 25px;
+    
+    padding: 15px;
     border-radius: 18px;
     box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
 
 .table-container h2 {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: left;
+  color: #08060d;
     margin-bottom: 20px;
 }
 
@@ -387,13 +395,18 @@ code {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 12px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
 }
 
 .queue-table thead th {
     background: #222;
     color: white;
     padding: 14px;
-    text-align: left;
+    /* min-width: 200px; */
+    /* text-align: left; */
 }
 
 .queue-table thead th:first-child {
@@ -407,7 +420,9 @@ code {
 .queue-table tbody td {
     background: #2d2d2d;
     color: white;
-    padding: 15px;
+    padding: 14px;
+    /* min-width: 100px; */
+
 }
 
 .queue-table tbody td:first-child {
@@ -420,14 +435,16 @@ code {
 
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {
     border: none;
     background: #444;
     color: white;
-    padding: 10px 18px;
+    padding: 10px 38px;
     border-radius: 8px;
     cursor: pointer;
     transition: .25s;

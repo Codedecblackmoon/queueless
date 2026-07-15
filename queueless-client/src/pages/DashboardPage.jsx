@@ -134,9 +134,7 @@ function DashboardPage() {
         {business && (
           <div className="top-row">
             <div className="card business-card">
-              <h2>Customer Queue</h2>
-              <img src={image} alt="" />
-              
+              <img className='i' src={image} alt="" />
             </div>
 
             <div className="card qr-card">
