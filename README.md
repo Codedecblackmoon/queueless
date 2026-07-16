@@ -14,10 +14,10 @@ Small walk-in businesses — barbershops, clinics, food trucks — still make pe
 ## How it works
 
 1. A business owner signs up and gets a unique queue link (e.g. `/join/hopes-cafe`) automatically.
-2. They share that link — QR code, Instagram bio, a sign at the counter.
-3. Customers open the link, enter their name, and get a live status page showing their position.
-4. The owner sees everyone currently waiting on their dashboard, updating in real time as people join.
-5. When the owner clicks **Notify**, the customer's status page updates instantly and they receive an email.
+2. Their dashboard shows that link alongside an auto-generated QR code, with one-click copy and download — ready to print or post without leaving the app.
+3. Customers open the link (or scan the code), enter their name, and get a live status page showing their position.
+4. The owner sees everyone currently waiting, notified, or seated on their dashboard, updating in real time as people join.
+5. When the owner clicks **Notify**, the customer's status page updates instantly and they receive an email. **Seat** marks them served without removing them from view; only **Remove** takes someone off the table entirely.
 
 *(Add 2–3 screenshots here: the join form, the live status page, the dashboard table)*
 
@@ -33,7 +33,8 @@ React (admin dashboard)─┘              ▲
 
 - The **React frontend** talks to Supabase directly for reads and for Realtime subscriptions (governed entirely by Row Level Security).
 - The **Express API** is the trusted layer for anything with real logic: calculating queue position, verifying the owner's auth token, and triggering email notifications. It uses Supabase's service_role key, which never reaches the browser.
-- **Supabase Realtime** pushes database changes straight to both the customer's status page and the owner's dashboard over a WebSocket — when the owner clicks "Seat," the customer's screen updates with no polling and no refresh.
+- **Supabase Realtime** pushes database changes straight to both the customer's status page and the owner's dashboard over a WebSocket — when the owner clicks "Notify" or "Seat," the customer's screen updates with no polling and no refresh.
+- The **QR code** is generated client-side by pointing an `<img>` at the [QR Server API](https://goqr.me/api/) with the queue's join URL as a parameter — no QR-generation library or backend work needed.
 
 ## Tech stack
 
@@ -43,6 +44,8 @@ React (admin dashboard)─┘              ▲
 | Backend | Node.js, Express |
 | Database, Auth, Realtime | Supabase (Postgres) |
 | Email notifications | Resend |
+| QR code generation | [QR Server API](https://goqr.me/api/) |
+| Alerts/toasts | SweetAlert2 |
 | Hosting | Vercel (frontend), Render (API) |
 
 ## Key technical details
@@ -51,6 +54,9 @@ React (admin dashboard)─┘              ▲
 - **Self-serve multi-tenancy.** Any number of businesses can sign up independently; each gets its own auto-generated unique slug, queue, and isolated dashboard — no manual database work required per business.
 - **Real-time, not polling.** Both the customer and owner views subscribe directly to Postgres changes via Supabase Realtime, so state stays in sync across devices without any client ever asking "did anything change?"
 - **Clear frontend/backend boundary.** Simple reads of public data go straight from React to Supabase. Anything involving business logic, validation, or an authenticated action goes through the Express API.
+- **Explicit status lifecycle on the dashboard.** A queue entry moves through `waiting → notified → seated`, staying visible on the dashboard the whole time — only an explicit **Remove** actually deletes the row. This was a deliberate fix after an earlier version conflated "seated" with "gone," which hid customers the owner still needed to see.
+- **`replica identity full` on `queue_entries`.** By default, Postgres only includes the primary key on a deleted row's Realtime payload — not enough to satisfy a filter like `queue_id=eq.<id>`. Setting full replica identity was required to make delete events actually reach filtered subscriptions live, instead of only showing up after a manual refresh.
+- **Platform-aware file downloads.** The "Download QR" button uses the standard blob + `<a download>` technique, which works on desktop and Android but is silently ignored by iOS Safari's sandboxing. The app detects iOS and falls back to opening the QR image in a new tab with a "long-press to save" prompt, rather than pretending a one-click download works everywhere.
 
 ## Running it locally
 
@@ -69,7 +75,7 @@ cd ../queueless-client && npm install
 ```
 
 ### 2. Set up the database
-In your Supabase project's SQL Editor, run `queueless-server/schema.sql` — it creates all tables, Row Level Security policies, and enables Realtime on `queue_entries`.
+In your Supabase project's SQL Editor, run `queueless-server/schema.sql` — it creates all tables, Row Level Security policies, enables Realtime on `queue_entries`, and sets `replica identity full` so filtered delete events are delivered live.
 
 ### 3. Environment variables
 
@@ -107,7 +113,9 @@ Visit `http://localhost:5173`.
 - Estimated wait times based on historical seating duration
 - Multiple queues per business (e.g. separate lines for different services)
 - Automated tests for the Express API and RLS policies
+- A true native "Save to Photos" flow for iOS, likely via a small share-sheet integration rather than a plain `<a download>` link
+- Bulk actions on the dashboard table (the checkbox column is currently placeholder-only)
 
 ## What this project taught me
 
-Building this end to end — including debugging real issues like stale Realtime subscriptions, RLS policies silently blocking reads, and SPA routing 404s on Vercel — was as valuable as the initial build itself. Full-stack development is as much about reasoning through *why* something broke as it is about writing the first working version.
+Building this end to end — including debugging real issues like stale Realtime subscriptions, RLS policies silently blocking reads, SPA routing 404s on Vercel, and a Postgres replica identity setting that quietly swallowed delete events — was as valuable as the initial build itself. Full-stack development is as much about reasoning through *why* something broke as it is about writing the first working version, and about recognizing platform-specific limits (like iOS Safari's download handling) rather than assuming one implementation works everywhere.
