@@ -76,7 +76,7 @@ function StatusPage() {
                     <>
                     <h2>It's almost your turn!</h2>
                     <p>
-                        Please make your way to the counter. We'll be ready for you shortlyo.
+                        Please make your way to the counter. We'll be ready for you shortly.
                     </p>
                     </>
                 )}
