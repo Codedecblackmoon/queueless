@@ -3,7 +3,6 @@
 A live virtual waitlist app. Business owners sign up, get a shareable link for their queue, and manage walk-ins from a real-time dashboard. Customers join from their phone and watch their position update live no refreshing, no app download, no standing in line.
 
 **Live demo:** https://queueless-client.vercel.app
-**Demo video:** *(add link once recorded)*
 
 ---
 
@@ -22,9 +21,15 @@ Small walk-in businesses barbershops, clinics, food trucks still make people phy
 
 <img width="1118" height="571" alt="Screenshot 2026-07-16 205223" src="https://github.com/user-attachments/assets/216d7611-e858-46ea-be6d-36e21a839518" />
 
+---
+
 <img width="1083" height="373" alt="Screenshot 2026-07-16 205241" src="https://github.com/user-attachments/assets/ca325dc0-17a3-4346-b2ac-2a179cbdbabb" />
 
+---
+
 <img width="1114" height="582" alt="Screenshot 2026-07-16 205447" src="https://github.com/user-attachments/assets/ebaf0fb5-0ac0-4373-aecb-68097d070ac6" />
+
+---
 
 <img width="1011" height="515" alt="Screenshot 2026-07-16 205515" src="https://github.com/user-attachments/assets/054a7e96-9da3-425d-a952-48f56e4e8d4d" />
 
