@@ -1,6 +1,6 @@
 # QueueLess
 
-A live virtual waitlist app. Business owners sign up, get a shareable link for their queue, and manage walk-ins from a real-time dashboard. Customers join from their phone and watch their position update live — no refreshing, no app download, no standing in line.
+A live virtual waitlist app. Business owners sign up, get a shareable link for their queue, and manage walk-ins from a real-time dashboard. Customers join from their phone and watch their position update live no refreshing, no app download, no standing in line.
 
 **Live demo:** https://queueless-client.vercel.app
 **Demo video:** *(add link once recorded)*
@@ -9,17 +9,23 @@ A live virtual waitlist app. Business owners sign up, get a shareable link for t
 
 ## The problem
 
-Small walk-in businesses — barbershops, clinics, food trucks — still make people physically stand in line or shout out names to know when it's their turn. QueueLess replaces that with a link: customers join remotely, see their live position, and get notified by email when they're almost up. Business owners get a live-updating dashboard to manage the line from any device.
+Small walk-in businesses barbershops, clinics, food trucks still make people physically stand in line or shout out names to know when it's their turn. QueueLess replaces that with a link: customers join remotely, see their live position, and get notified by email when they're almost up. Business owners get a live-updating dashboard to manage the line from any device.
 
 ## How it works
 
 1. A business owner signs up and gets a unique queue link (e.g. `/join/hopes-cafe`) automatically.
-2. Their dashboard shows that link alongside an auto-generated QR code, with one-click copy and download — ready to print or post without leaving the app.
+2. Their dashboard shows that link alongside an auto-generated QR code, with one-click copy and download ready to print or post without leaving the app.
 3. Customers open the link (or scan the code), enter their name, and get a live status page showing their position.
 4. The owner sees everyone currently waiting, notified, or seated on their dashboard, updating in real time as people join.
 5. When the owner clicks **Notify**, the customer's status page updates instantly and they receive an email. **Seat** marks them served without removing them from view; only **Remove** takes someone off the table entirely.
 
 *(Add 2–3 screenshots here: the join form, the live status page, the dashboard table)*
+
+<img width="1011" height="515" alt="Screenshot 2026-07-16 205515" src="https://github.com/user-attachments/assets/054a7e96-9da3-425d-a952-48f56e4e8d4d" />
+<img width="1114" height="582" alt="Screenshot 2026-07-16 205447" src="https://github.com/user-attachments/assets/ebaf0fb5-0ac0-4373-aecb-68097d070ac6" />
+<img width="1083" height="373" alt="Screenshot 2026-07-16 205241" src="https://github.com/user-attachments/assets/ca325dc0-17a3-4346-b2ac-2a179cbdbabb" />
+<img width="1118" height="571" alt="Screenshot 2026-07-16 205223" src="https://github.com/user-attachments/assets/216d7611-e858-46ea-be6d-36e21a839518" />
+
 
 ## Architecture
 
@@ -33,8 +39,8 @@ React (admin dashboard)─┘              ▲
 
 - The **React frontend** talks to Supabase directly for reads and for Realtime subscriptions (governed entirely by Row Level Security).
 - The **Express API** is the trusted layer for anything with real logic: calculating queue position, verifying the owner's auth token, and triggering email notifications. It uses Supabase's service_role key, which never reaches the browser.
-- **Supabase Realtime** pushes database changes straight to both the customer's status page and the owner's dashboard over a WebSocket — when the owner clicks "Notify" or "Seat," the customer's screen updates with no polling and no refresh.
-- The **QR code** is generated client-side by pointing an `<img>` at the [QR Server API](https://goqr.me/api/) with the queue's join URL as a parameter — no QR-generation library or backend work needed.
+- **Supabase Realtime** pushes database changes straight to both the customer's status page and the owner's dashboard over a WebSocket when the owner clicks "Notify" or "Seat," the customer's screen updates with no polling and no refresh.
+- The **QR code** is generated client-side by pointing an `<img>` at the [QR Server API](https://goqr.me/api/) with the queue's join URL as a parameter no QR-generation library or backend work needed.
 
 ## Tech stack
 
@@ -118,4 +124,4 @@ Visit `http://localhost:5173`.
 
 ## What this project taught me
 
-Building this end to end — including debugging real issues like stale Realtime subscriptions, RLS policies silently blocking reads, SPA routing 404s on Vercel, and a Postgres replica identity setting that quietly swallowed delete events — was as valuable as the initial build itself. Full-stack development is as much about reasoning through *why* something broke as it is about writing the first working version, and about recognizing platform-specific limits (like iOS Safari's download handling) rather than assuming one implementation works everywhere.
+Building this end to end including debugging real issues like stale Realtime subscriptions, RLS policies silently blocking reads, SPA routing 404s on Vercel, and a Postgres replica identity setting that quietly swallowed delete events — was as valuable as the initial build itself. Full-stack development is as much about reasoning through *why* something broke as it is about writing the first working version, and about recognizing platform-specific limits (like iOS Safari's download handling) rather than assuming one implementation works everywhere.
