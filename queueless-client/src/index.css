@@ -374,116 +374,110 @@ code {
 }
 
 /* ================= Table ================= */
-
 .table-container {
-    
-    padding: 15px;
-    border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  background: #292929;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .table-container h2 {
   font-family: "Lobster Two", sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
-  text-align: left;
-  color: #08060d;
-    margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #eeeeee;
+  margin-bottom: 1rem;
+  
 }
 
 .queue-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 12px;
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; */
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: #ffffff;
 }
 
-.queue-table thead th {
-    background: #222;
-    color: white;
-    padding: 14px;
-    /* min-width: 200px; */
-    /* text-align: left; */
+.queue-table thead tr {
+  /* background: #eeb448; */
+  text-align: left;
+  /* border-radius: 10px; */
 }
 
-.queue-table thead th:first-child {
-    border-radius: 10px 0 0 10px;
+.queue-table th {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  padding-left: 2em;
+  padding-bottom: 1em;
+  font-weight: 600;
+  color: #eeb448;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
 }
 
-.queue-table thead th:last-child {
-    border-radius: 0 10px 10px 0;
+.queue-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #f0f1f3;
+  vertical-align: middle;
 }
 
-.queue-table tbody td {
-    background: #2d2d2d;
-    color: white;
-    padding: 14px;
-    /* min-width: 100px; */
-
+.queue-table tbody tr:hover {
+  background: #1a1a1a;
 }
 
-.queue-table tbody td:first-child {
-    border-radius: 10px 0 0 10px;
+.queue-table .actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
 }
 
-.queue-table tbody td:last-child {
-    border-radius: 0 10px 10px 0;
+.queue-table .btn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  /* background: #ffffff; */
+  color: #d1d5db;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.actions {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    align-items: center;
+.queue-table .btn:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
 }
 
-.btn {
-    border: none;
-    background: #444;
-    color: white;
-    padding: 10px 38px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: .25s;
+.queue-table .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-.notify.active {
-    color: #00ff66;
-    border: 2px solid #00ff66;
+/* Active-state coloring per action type, matching the badge colors from the reference */
+.queue-table .btn.notify.active {
+  /* background: #dbeafe; */
+  border-color: #93c5fd;
+  color: #1e40af;
 }
 
-.seat.active {
-    color: #00ff66;
-    border: 2px solid #00ff66;
+.queue-table .btn.seat.active {
+  /* background: #ffffff; */
+  border-color: #2bff00;
+  color: #2bff00;
 }
 
-.remove:hover {
-    background: #c62828;
+.queue-table .btn.remove {
+  color: #ff0000;
+  border-color: #ff0000;
 }
 
-.notify:hover,
-.seat:hover {
-    border: 2px solid #00ff66;
-}
-
-/* ================= Responsive ================= */
-
-@media (max-width: 900px) {
-    .top-row {
-        grid-template-columns: 1fr;
-    }
-
-    .share-link {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .actions {
-        flex-wrap: wrap;
-    }
+.queue-table .btn.remove:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #fca5a5;
 }
 
 /* status ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
