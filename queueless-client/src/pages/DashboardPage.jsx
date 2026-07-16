@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../useAuth'
 import { supabase } from '../supabaseClient'
 import image from '../assets/wired-flat-2234-firework-hover-launch.webp'
+import Swal from 'sweetalert2'
+
 
 function DashboardPage() {
   const { session } = useAuth()
@@ -9,7 +11,8 @@ function DashboardPage() {
   const [business, setBusiness] = useState(null)
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
-
+  // const Swal = require('sweetalert2')
+  
   useEffect(() => {
     async function fetchQueue() {
       const { data } = await supabase
@@ -98,7 +101,13 @@ function DashboardPage() {
 
   function copySlugUrl() {
     navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
-    alert('Link copied!')
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Copied",
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
 
   async function downloadQrCode() {
@@ -116,12 +125,27 @@ function DashboardPage() {
       a.click()
       a.remove()
       URL.revokeObjectURL(tempUrl)
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Downloaded',
+        showConfirmButton: false,
+        timer: 1500
+      })
     } catch {
-      alert('Failed to download QR code')
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Failed to download QR code',
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   return (
+    
     <section className="dashboard-page">
       <div className="dashboard-container">
         <div className="dashboard-header">
@@ -204,6 +228,7 @@ function DashboardPage() {
       </div>
     </section>
   )
+  
 }
 
 export default DashboardPage

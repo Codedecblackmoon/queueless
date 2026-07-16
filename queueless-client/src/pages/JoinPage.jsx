@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
+import image from '../assets/svg.svg'
 
 function JoinPage() {
     const { businessSlug } = useParams()
@@ -61,33 +62,6 @@ function JoinPage() {
     if (error) return <p>{error}</p>
 
     return (
-        // <div>
-        //     <h1>{queue.name}</h1>
-        //     <form onSubmit={handleSubmit}>
-        //     <input
-        //         type="text"
-        //         placeholder="Your name"
-        //         value={name}
-        //         onChange={(e) => setName(e.target.value)}
-        //         required
-        //     />
-        //     <input
-        //         type="text"
-        //         placeholder="Phone or email (optional)"
-        //         value={contact}
-        //         onChange={(e) => setContact(e.target.value)}
-        //     />
-        //     <input
-        //         type="number"
-        //         min="1"
-        //         value={partySize}
-        //         onChange={(e) => setPartySize(Number(e.target.value))}
-        //     />
-        //     <button type="submit" disabled={submitting}>
-        //         {submitting ? 'Joining...' : 'Join Queue'}
-        //     </button>
-        //     </form>
-        // </div>
         <section className="join-page">
             <div className="join-card">
 
@@ -99,7 +73,6 @@ function JoinPage() {
                 <form className="join-form" onSubmit={handleSubmit}>
 
                 <div className="input-group">
-                    <label>Your Name</label>
                     <input
                     type="text"
                     placeholder="Enter your full name"
@@ -110,10 +83,9 @@ function JoinPage() {
                 </div>
 
                 <div className="input-group">
-                    <label>Phone or Email</label>
                     <input
                     type="text"
-                    placeholder="Optional"
+                    placeholder="Email"
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
                     />
@@ -123,7 +95,8 @@ function JoinPage() {
                     <label>Party Size</label>
                     <input
                     type="number"
-                    min="1"
+                    // min="1"
+                    placeholder="Party Size"
                     value={partySize}
                     onChange={(e) => setPartySize(Number(e.target.value))}
                     />
@@ -136,6 +109,10 @@ function JoinPage() {
                 >
                     {submitting ? "Joining Queue..." : "Join Queue"}
                 </button>
+                <div className='left-join'>
+                    <h1>Q-Less</h1>
+                    <img src={image} alt="" />
+                </div>
 
                 </form>
 
