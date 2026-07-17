@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
-import image from '../assets/svg1.svg'
+import image from '../assets/svg1.svg' // keep whatever your actual import path/name is
 
 function slugify(name) {
   return name
@@ -12,6 +12,10 @@ function slugify(name) {
     .replace(/-+/g, '-')
 }
 
+// A standard, pragmatic email pattern — not RFC-perfect, but catches the
+// overwhelming majority of real typos (missing @, missing domain, stray spaces).
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -20,34 +24,50 @@ function SignupPage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  function validateForm() {
+    if (!businessName.trim()) {
+      return 'Please enter a business name.'
+    }
+    if (!EMAIL_REGEX.test(email.trim())) {
+      return 'Please enter a valid email address.'
+    }
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters long.'
+    }
+    return null
+  }
+
   async function handleSignup(e) {
     e.preventDefault()
-    setLoading(true)
     setError(null)
 
-    // Step A: create the auth user
+    const validationError = validateForm()
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
+    setLoading(true)
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
-      email,
+      email: email.trim(),
       password
     })
 
-    // if (authError) {
-    //   setError(authError.message)
-    //   setLoading(false)
-    //   return
-    // }
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
+      return
+    }
+
     if (!authData.session) {
-    // Email confirmation is required — don't proceed to create a business yet,
-    // and don't navigate to the dashboard under the wrong session
-    setError(null)
-    setLoading(false)
-    alert('Check your email to confirm your account, then log in to finish setting up your business.')
-    return
-  }
+      setLoading(false)
+      alert('Check your email to confirm your account, then log in to finish setting up your business.')
+      return
+    }
 
     const userId = authData.user.id
 
-    // Step B: generate a unique slug
     let slug = slugify(businessName)
     let suffix = 0
     let isUnique = false
@@ -68,10 +88,9 @@ function SignupPage() {
       }
     }
 
-    // Step C: create the business
     const { data: business, error: businessError } = await supabase
       .from('businesses')
-      .insert({ owner_id: userId, name: businessName, slug })
+      .insert({ owner_id: userId, name: businessName.trim(), slug })
       .select()
       .single()
 
@@ -81,7 +100,6 @@ function SignupPage() {
       return
     }
 
-    // Step D: create a default queue for that business
     const { error: queueError } = await supabase
       .from('queues')
       .insert({ business_id: business.id, name: 'Walk-ins' })
@@ -102,13 +120,34 @@ function SignupPage() {
         <img src={image} alt="" />
       </div>
       <div className='right'>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleSignup} noValidate>
           <h2>Create Your Business Account</h2>
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          <input type="text" placeholder="Business name" value={businessName} onChange={(e) => setBusinessName(e.target.value)} required />
-          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <button type="submit" disabled={loading}>{loading ? 'Creating account...' : 'Sign Up'}</button>
+          <input
+            type="text"
+            placeholder="Business name"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password (min. 6 characters)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating account...' : 'Sign Up'}
+          </button>
           <p>Already have an account? <Link to="/login">Log in</Link></p>
         </form>
       </div>
