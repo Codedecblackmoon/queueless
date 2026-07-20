@@ -18,12 +18,17 @@ Small walk-in businesses barbershops, clinics, food trucks still make people phy
 4. The owner sees everyone currently waiting, notified, or seated on their dashboard, updating in real time as people join.
 5. When the owner clicks **Notify**, the customer's status page updates instantly and they receive an email. **Seat** marks them served without removing them from view; only **Remove** takes someone off the table entirely.
 
+---
 
-<img width="1118" height="571" alt="Screenshot 2026-07-16 205223" src="https://github.com/user-attachments/assets/216d7611-e858-46ea-be6d-36e21a839518" />
+<img width="1343" height="580" alt="Screenshot 2026-07-20 143054" src="https://github.com/user-attachments/assets/9b9c7a08-673c-4db2-8ade-3a7a3d1afa06" />
 
 ---
 
-<img width="1083" height="373" alt="Screenshot 2026-07-16 205241" src="https://github.com/user-attachments/assets/ca325dc0-17a3-4346-b2ac-2a179cbdbabb" />
+<img width="1343" height="582" alt="Screenshot 2026-07-20 142829" src="https://github.com/user-attachments/assets/83e6bfb7-e7d0-40b9-b641-0c84a7f20802" />
+
+---
+
+<img width="1342" height="584" alt="Screenshot 2026-07-20 142853" src="https://github.com/user-attachments/assets/cb31b9b3-913e-42d8-a85b-5e7660a27fc1" />
 
 ---
 
