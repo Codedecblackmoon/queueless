@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import image from '../assets/svg.svg'
+import image_load from '../assets/loading.webp'
+import image_noqueue from '../assets/no-queue.webp'
 
 function JoinPage() {
     const { businessSlug } = useParams()
@@ -58,8 +60,8 @@ function JoinPage() {
         }
     }
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>{error}</p>
+    if (loading) return <div className="loading"><img src={image_load} alt="Loading" /><p>Loading...</p></div>
+    if (error) return <div className="no-queue"><img src={image_noqueue} alt="No queue" /><p>{error}</p></div>
 
     return (
         <section className="join-page">

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
+import image_load from '../assets/loading.webp'
+import image_noqueue from '../assets/no-queue.webp'
 
 function StatusPage() {
   const { entryId } = useParams()
@@ -44,8 +46,8 @@ function StatusPage() {
     }
     }, [entryId])
 
-    if (loading) return <p>Loading...</p>
-    if (!entry) return <p>Entry not found.</p>
+    if (loading) return <div className="loading"><img src={image_load} alt="Loading" /><p>Loading...</p></div>
+    if (!entry) return <div className="no-queue"><img src={image_noqueue} alt="No queue" /><p>Entry not found.</p></div>
 
     return (
         <section className='status_page'>

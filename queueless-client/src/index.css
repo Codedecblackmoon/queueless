@@ -5,7 +5,7 @@
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-bg: #08060d;
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
@@ -34,13 +34,13 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
-    --bg: #16171d;
+    --bg: #08060d;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-bg: #08060d;
     --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    --social-bg: #08060d;
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
@@ -922,4 +922,29 @@ code {
   font-family: "Lobster Two", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+/* ============loading screen===================== */
+
+.loading{
+  background-color: 08060d;
+  min-height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 4rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  /* margin: 10em;
+  margin-top: 5em; */
+}
+
+.loading img{
+  max-width: 100%;
+  height: auto;
+  padding: 0;
 }

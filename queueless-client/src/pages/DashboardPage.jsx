@@ -4,6 +4,8 @@ import { useAuth } from '../useAuth'
 import { supabase } from '../supabaseClient'
 import { TableProperties, Share, LogOut } from 'lucide-react'
 import Swal from 'sweetalert2'
+import image_load from '../assets/loading.webp'
+import image_noqueue from '../assets/no-queue.webp'
 
 
 function DashboardPage() {
@@ -168,8 +170,8 @@ function DashboardPage() {
     navigate('/login')
   }
 
-  if (loading) return <p>Loading...</p>
-  if (!queue) return <p>No queue found for this account.</p>
+  if (loading) return <div className="loading"><img src={image_load} alt="Loading" /><p>Loading...</p></div>
+  if (!queue) return <div className="no-queue"><img src={image_noqueue} alt="No queue" /><p>No queue found for this account.</p></div>
 
   const waitingCount = entries.filter((e) => e.status === 'waiting').length
   const notifiedCount = entries.filter((e) => e.status === 'notified').length
@@ -239,7 +241,7 @@ function DashboardPage() {
               <table className="queue-table">
                 <thead>
                   <tr>
-                    <th>No</th>
+                    <th>Position</th>
                     <th>Name</th>
                     <th>Party</th>
                     <th>Actions</th>
