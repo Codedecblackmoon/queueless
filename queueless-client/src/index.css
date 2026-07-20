@@ -383,6 +383,10 @@ code {
   padding: 1.5rem 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   overflow-x: auto; /* let the table scroll horizontally on small screens instead of breaking layout */
+  box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -webkit-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -moz-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+
 }
 
 .table-container h2 {
