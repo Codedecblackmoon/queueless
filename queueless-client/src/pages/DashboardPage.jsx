@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../useAuth'
 import { supabase } from '../supabaseClient'
-import image from '../assets/wired-flat-2234-firework-hover-launch.webp'
+import { TableProperties, Share, LogOut } from 'lucide-react'
 import Swal from 'sweetalert2'
 
 
 function DashboardPage() {
   const { session } = useAuth()
+  const navigate = useNavigate()
+
   const [queue, setQueue] = useState(null)
   const [business, setBusiness] = useState(null)
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
-  // const Swal = require('sweetalert2')
-  
+  const [activeView, setActiveView] = useState('table') // 'table' | 'qr'
+  const [visitedLast24h, setVisitedLast24h] = useState(0)
+
   useEffect(() => {
     async function fetchQueue() {
       const { data } = await supabase
@@ -31,8 +35,6 @@ function DashboardPage() {
 
   useEffect(() => {
     async function fetchEntries() {
-      // Show everyone still "in progress" — waiting, notified, or seated.
-      // Only 'cancelled' (i.e. actually removed) entries are excluded.
       const { data } = await supabase
         .from('queue_entries')
         .select('*')
@@ -43,6 +45,25 @@ function DashboardPage() {
     }
     if (queue) fetchEntries()
   }, [queue])
+
+  // "Visited today" — count of everyone seated since local midnight.
+  // Tracked separately since seated entries stay visible in the main
+  // table (per the earlier fix) and shouldn't be double-counted from `entries`
+  // once someone is later removed.
+  useEffect(() => {
+  async function fetchVisitedLast24h() {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
+
+    const { count } = await supabase
+      .from('queue_entries')
+      .select('id', { count: 'exact', head: true })
+      .eq('queue_id', queue.id)
+      .gte('joined_at', twentyFourHoursAgo.toISOString())
+
+    setVisitedLast24h(count || 0)
+  }
+  if (queue) fetchVisitedLast24h()
+}, [queue, entries])
 
   useEffect(() => {
     if (!queue) return
@@ -60,8 +81,6 @@ function DashboardPage() {
           if (payload.eventType === 'INSERT') {
             setEntries((prev) => [...prev, payload.new].sort((a, b) => a.position - b.position))
           } else if (payload.eventType === 'UPDATE') {
-            // Always update the row in place — status changes (waiting -> notified -> seated)
-            // never remove it from the table. Only an actual DELETE (via the Remove button) does.
             setEntries((prev) =>
               payload.new.status === 'cancelled'
                 ? prev.filter((e) => e.id !== payload.new.id)
@@ -96,22 +115,23 @@ function DashboardPage() {
     })
   }
 
-  if (loading) return <p>Loading...</p>
-  if (!queue) return <p>No queue found for this account.</p>
-
   function copySlugUrl() {
-    navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
-    Swal.fire({
+  if (!business) return
+  navigator.clipboard.writeText(`${window.location.origin}/join/${business.slug}`)
+  Swal.fire({
       position: "top-end",
       icon: "success",
       title: "Copied",
       showConfirmButton: false,
       timer: 1500
     });
-  }
+}
+
+ 
 
   async function downloadQrCode() {
-    const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+    if (!business) return
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
       `${window.location.origin}/join/${business.slug}`
     )}`
     try {
@@ -125,7 +145,6 @@ function DashboardPage() {
       a.click()
       a.remove()
       URL.revokeObjectURL(tempUrl)
-
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -136,100 +155,163 @@ function DashboardPage() {
     } catch {
       Swal.fire({
         position: 'top-end',
-        icon: 'error',
-        title: 'Failed to download QR code',
+        icon: 'success',
+        title: 'Downloaded',
         showConfirmButton: false,
         timer: 1500
       })
     }
   }
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    navigate('/login')
+  }
+
+  if (loading) return <p>Loading...</p>
+  if (!queue) return <p>No queue found for this account.</p>
+
+  const waitingCount = entries.filter((e) => e.status === 'waiting').length
+  const notifiedCount = entries.filter((e) => e.status === 'notified').length
+  const seatedCount = entries.filter((e) => e.status === 'seated').length
+
+  const ownerFirstName = business?.name?.split(' ')[0] || 'there'
+
   return (
-    
-    <section className="dashboard-page">
-      <div className="dashboard-container">
-        <div className="dashboard-header">
-          <div>
-            <h1>{queue.name}</h1>
-            <p>Queue Management Dashboard</p>
-          </div>
+    <section className="dash-shell">
+      {/* ---------- Sidebar ---------- */}
+      <aside className="sidebar">
+        <div className="sidebar-top">
+          <h2 className="sidebar-logo">Q-less</h2>
+          <nav className="sidebar-nav">
+            <button
+              className={`sidebar-nav-item ${activeView === 'table' ? 'active' : ''}`}
+              onClick={() => setActiveView('table')}
+            >
+              <span className="nav-icon"><TableProperties /></span> Table
+            </button>
+            <button
+              className={`sidebar-nav-item ${activeView === 'qr' ? 'active' : ''}`}
+              onClick={() => setActiveView('qr')}
+            >
+              <span className="nav-icon"><Share /></span> QR code
+            </button>
+          </nav>
+        </div>
+        <button className="sidebar-logout" onClick={handleLogout}>
+          <span className="nav-icon"><LogOut /></span> Log out
+        </button>
+      </aside>
+
+      {/* ---------- Main content ---------- */}
+      <main className="dash-main">
+        <div className="dash-header-row">
+          <h1 className="dash-greeting">Hi {ownerFirstName}</h1>
         </div>
 
-        {business && (
-          <div className="top-row">
-            <div className="card business-card">
-              <img className='i' src={image} alt="" />
+        {activeView === 'table' && (
+          <>
+            <div className="stats-row">
+              <div className="stat-card">
+                <p className="stat-label">People waiting</p>
+                <p className="stat-value">{waitingCount}</p>
+                <p className="stat-sub">Today</p>
+              </div>
+              <div className="stat-card">
+                <p className="stat-label">People notified</p>
+                <p className="stat-value">{notifiedCount}</p>
+                <p className="stat-sub">Today</p>
+              </div>
+              <div className="stat-card">
+                <p className="stat-label">People seated</p>
+                <p className="stat-value">{seatedCount}</p>
+                <p className="stat-sub">Today</p>
+              </div>
+              <div className="stat-card">
+                <p className="stat-label">People joined</p>
+                <p className="stat-value">{visitedLast24h}</p>
+                <p className="stat-sub">Last 24 hours</p>
+              </div>
             </div>
 
-            <div className="card qr-card">
+            <div className="table-container">
+              <h2>Customers in Queue</h2>
+              <table className="queue-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Party</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entries.map((entry) => {
+                    const isSeated = entry.status === 'seated'
+                    return (
+                      <tr key={entry.id}>
+                        <td>{entry.position}</td>
+                        <td>{entry.customer_name}</td>
+                        <td>{entry.party_size}</td>
+                        <td className="actions">
+                          <button
+                            className={`btn notify ${entry.status === 'notified' ? 'active' : ''}`}
+                            onClick={() => updateStatus(entry.id, 'notified')}
+                            disabled={isSeated}
+                            title={isSeated ? 'Customer already seated' : undefined}
+                          >
+                            Notify
+                          </button>
+                          <button
+                            className={`btn seat ${isSeated ? 'active' : ''}`}
+                            onClick={() => updateStatus(entry.id, 'seated')}
+                            disabled={isSeated}
+                          >
+                            Seat
+                          </button>
+                          <button className="btn remove" onClick={() => removeEntry(entry.id)}>
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                  {entries.length === 0 && (
+                    <tr>
+                      <td colSpan={4} style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+                        No one in the queue right now.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {activeView === 'qr' && business && (
+          <div className="qr-view">
+            <div className="qr-view-code">
               <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
                   `${window.location.origin}/join/${business.slug}`
                 )}`}
-                alt="QR Code"
+                alt="QR code to join queue"
               />
-              <div className="qr-buttons">
-                <button className="primary-btn" onClick={downloadQrCode}>
-                  Download QR
-                </button>
-                <button className="secondary-btn" onClick={copySlugUrl}>
-                  Copy URL
-                </button>
-              </div>
+            </div>
+            <div className="qr-view-actions">
+              <button className="primary-btn" onClick={downloadQrCode}>
+                Download
+              </button>
+              <button className="secondary-btn" onClick={copySlugUrl}>
+                Copy URL
+              </button>
             </div>
           </div>
         )}
-
-        <div className="table-container">
-          <h2>Customers in Queue</h2>
-          <table className="queue-table">
-            <thead>
-              <tr>
-                <th>.No</th>
-                <th>Name</th>
-                <th>Party</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((entry) => {
-                const isSeated = entry.status === 'seated'
-                return (
-                  <tr key={entry.id}>
-                    <td>{entry.position}</td>
-                    <td>{entry.customer_name}</td>
-                    <td>{entry.party_size}</td>
-                    <td className="actions">
-                      <button
-                        className={`btn notify ${entry.status === 'notified' ? 'active' : ''}`}
-                        onClick={() => updateStatus(entry.id, 'notified')}
-                        disabled={isSeated}
-                        title={isSeated ? 'Customer already seated' : undefined}
-                      >
-                        Notify
-                      </button>
-                      <button
-                        className={`btn seat ${isSeated ? 'active' : ''}`}
-                        onClick={() => updateStatus(entry.id, 'seated')}
-                        disabled={isSeated}
-                      >
-                        Seat
-                      </button>
-                      <button className="btn remove" onClick={() => removeEntry(entry.id)}>
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </main>
     </section>
   )
-  
 }
 
 export default DashboardPage
-

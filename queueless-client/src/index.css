@@ -476,6 +476,241 @@ code {
   border-color: #fca5a5;
 }
 
+/* ============== */
+
+/* ================= Dashboard shell: sidebar + main content ================= */
+
+.dash-shell {
+  min-height: 100vh;
+  background: #eeb448;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #08060d;
+  margin: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -webkit-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -moz-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+}
+
+.sidebar-logo {
+  color: #ffffff;
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0 0 1.75rem 0.25rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav-item:hover {
+  background: #1a1b22;
+  color: #ffffff;
+}
+
+.sidebar-nav-item.active {
+  background: #eeb448;
+  color: #08060d;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-logout:hover {
+  background: #1a1b22;
+  color: #ffffff;
+}
+
+.dash-main {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 2.5rem 2.5rem 0;
+}
+
+.dash-header-row {
+  margin-bottom: 1.5rem;
+}
+
+.dash-greeting {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: #08060d;
+  margin: 0;
+}
+
+/* ================= Stat cards ================= */
+
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  flex: 1 1 160px;
+  background: #08060d;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  text-align: left;
+  box-shadow: -10px 8px 20px -6px rgba(105, 63, 18, 0.5);
+}
+
+.stat-label {
+  color: #9ca3af;
+  font-size: 0.8rem;
+  margin: 0 0 0.6rem;
+}
+
+.stat-value {
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-sub {
+  color: #6b7280;
+  font-size: 0.7rem;
+  margin: 0.5rem 0 0;
+}
+
+/* ================= QR standalone view (matches the "QR code" nav tab) ================= */
+
+.qr-view {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15rem;
+  margin-right: 15rem;
+  gap: 2rem;
+  background: #08060d;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -webkit-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+  -moz-box-shadow: -15px 5px 36px -6px rgba(105, 63, 18, 0.75);
+}
+
+.qr-view-code img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  box-shadow: -19px 20px 43px -4px rgba(65, 64, 64, 0.75);
+}
+
+.qr-view-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 160px;
+}
+
+.qr-view-actions .primary-btn,
+.qr-view-actions .secondary-btn {
+  width: 100%;
+}
+
+/* ================= Responsive: stack sidebar above content on small screens ================= */
+
+@media (max-width: 900px) {
+  .dash-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+    margin: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .sidebar-logo {
+    margin: 0;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+  }
+
+  .dash-main {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .qr-view {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .qr-view-actions {
+    width: 100%;
+  }
+}
+
+/* ============================ */
+
 @media (max-width: 700px) {
   .dashboard-page {
     padding: 24px 12px;
