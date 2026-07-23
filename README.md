@@ -38,6 +38,10 @@ Small walk-in businesses barbershops, clinics, food trucks still make people phy
 
 <img width="1011" height="515" alt="Screenshot 2026-07-16 205515" src="https://github.com/user-attachments/assets/054a7e96-9da3-425d-a952-48f56e4e8d4d" />
 
+---
+
+<img width="670" height="589" alt="here" src="https://github.com/user-attachments/assets/555d4ccb-ec31-46cc-abf2-a303a8d7a182" />
+
 
 
 
